@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}Verascope — Check a news story{% endblock %}
+
+{% block content %}
+<div class="page">
+
+  <section class="hero">
+    <p class="hero__kicker">A reading tool, not a verdict</p>
+    <h1 class="hero__title">Paste a headline. See how it reads to a model trained on real and fake news.</h1>
+    <p class="hero__lede">
+      Verascope looks at word patterns common to fabricated stories — sensational
+      claims, vague sourcing, urgency — and compares them against patterns typical
+      of reported news. It gives you a second opinion, not the final word.
+    </p>
+  </section>
+
+  <section class="analyzer" id="analyzer">
+    <div class="analyzer__field">
+      <label for="newsInput" class="analyzer__label">News text</label>
+      <textarea
+        id="newsInput"
+        class="analyzer__textarea"
+        placeholder="Paste a headline or a few sentences of an article here…"
+        maxlength="4000"
+        rows="8"
+      ></textarea>
+      <div class="analyzer__meta">
+        <span id="charCount">0</span> / 4000 characters
+      </div>
+    </div>
+
+    <div class="analyzer__actions">
+      <button id="analyzeBtn" class="btn btn--primary" type="button">Analyze</button>
+      <button id="clearBtn" class="btn btn--ghost" type="button">Clear</button>
+      <button id="exampleBtn" class="btn btn--ghost" type="button">Try an example</button>
+      <span id="apiStatus" class="api-status" aria-live="polite"></span>
+    </div>
+
+    <div id="resultArea" class="result" hidden>
+      <div id="resultCard" class="result__card">
+        <div class="result__top">
+          <span id="resultBadge" class="result__badge"></span>
+          <span id="resultConfidence" class="result__confidence"></span>
+        </div>
+        <p id="resultExplain" class="result__explain"></p>
+        <div class="result__foot">
+          <span id="resultTime" class="result__time"></span>
+          <button id="copyBtn" class="link-btn" type="button">Copy result</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="errorArea" class="error-box" hidden></div>
+
+    <section class="history" id="historySection" hidden>
+      <h2 class="history__title">This session</h2>
+      <ul id="historyList" class="history__list"></ul>
+    </section>
+  </section>
+
+  <section class="steps">
+    <h2 class="steps__title">What happens when you click Analyze</h2>
+    <ol class="steps__list">
+      <li>
+        <span class="steps__num">1</span>
+        <div>
+          <h3>Text is cleaned</h3>
+          <p>URLs, HTML, punctuation and numbers are stripped so the model sees only meaningful words.</p>
+        </div>
+      </li>
+      <li>
+        <span class="steps__num">2</span>
+        <div>
+          <h3>Words become numbers</h3>
+          <p>A TF-IDF vectorizer scores each word by how distinctive it is to this piece of text.</p>
+        </div>
+      </li>
+      <li>
+        <span class="steps__num">3</span>
+        <div>
+          <h3>The model decides</h3>
+          <p>A Logistic Regression classifier, trained on labeled real and fake examples, returns a label and confidence.</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+{% endblock %}

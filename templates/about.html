@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Verascope — How it works{% endblock %}
+
+{% block content %}
+<div class="page page--narrow">
+
+  <section class="hero hero--compact">
+    <p class="hero__kicker">The method, in plain terms</p>
+    <h1 class="hero__title">How Verascope tells real from fake</h1>
+  </section>
+
+  <article class="prose">
+    <h2>The problem</h2>
+    <p>
+      Fake news spreads because it is written to travel: it is emotional, urgent,
+      and often short on named sources. Real reporting tends to read differently —
+      it attributes claims, uses measured language, and names dates, places, and
+      organizations. Verascope is a small demonstration of how those differences
+      can be picked up statistically, from word patterns alone.
+    </p>
+
+    <h2>Natural Language Processing (NLP)</h2>
+    <p>
+      Before any machine learning happens, the raw text goes through NLP
+      preprocessing: it is lowercased, stripped of URLs and HTML, and cleared of
+      punctuation and digits. This leaves plain words for the model to learn from,
+      without being distracted by formatting noise.
+    </p>
+
+    <h2>TF-IDF</h2>
+    <p>
+      TF-IDF stands for Term Frequency – Inverse Document Frequency. It scores
+      each word in a document by how often it appears there, offset by how common
+      that word is across every document in the dataset. Common words like "the"
+      or "said" score low; distinctive words score high. The result is a numeric
+      fingerprint of the text that a machine learning model can work with.
+    </p>
+
+    <h2>Logistic Regression</h2>
+    <p>
+      Logistic Regression is a supervised classification algorithm. Given the
+      TF-IDF fingerprint of a piece of text, it estimates the probability that the
+      text belongs to the "real" class versus the "fake" class, and returns
+      whichever is more likely along with that probability as a confidence score.
+      It is a well-understood, fast, and interpretable baseline for text
+      classification — a reasonable starting point before trying more complex
+      models.
+    </p>
+
+    <h2>Project objective</h2>
+    <p>
+      This project's goal is to demonstrate an end-to-end text classification
+      pipeline — from raw text, through cleaning and feature extraction, to a
+      trained model served over a simple web interface — rather than to produce a
+      production-grade fact-checking tool. Its predictions should be read as a
+      second opinion, not a verdict.
+    </p>
+
+    <h2>Limitations</h2>
+    <p>
+      The model only knows what it was trained on. It can be fooled by
+      well-written misinformation, and it can flag legitimate reporting that
+      happens to use dramatic language. It has no access to the internet and
+      cannot check facts against real events — it only recognizes statistical
+      patterns in wording.
+    </p>
+  </article>
+
+</div>
+{% endblock %}
